@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model auth {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  email      String    @unique
+  password   String
+  role       Role?     @default(USER)
+  last_login DateTime  @default(now())
+  created_at DateTime? @default(now())
+  auth_rel   user[]
+}
+
+model user {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  first_name        String
+  last_name         String
+  email             String          @unique
+  address           String
+  age               String
+  mobile_no         String
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @default(now())
+  health_report_rel Health_Report[]
+  auth_rel          auth            @relation(fields: [email], references: [email])
+}
+
+model Health_Report {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id          String   @db.ObjectId
+  blood_group      String
+  is_approve Boolean
+  approved_by      String
+  height           String
+  weight           String
+  blood_pressure   String
+  pulse_rate       String
+  any_disease      String?  @default("None")
+  report_date      DateTime
+  donation_date    DateTime
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now())
+  user_rel         user     @relation(fields: [user_id], references: [id])
+}
+
+model Donation_details {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id       String
+  blood_group   String
+  unit          Int
+  donation_at DateTime
+  donated_by    String
+  is_donated    Boolean
+  created_at    DateTime @default(now())
+}
+model Donation_Appointment {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id       String
+  donation_date String
+approve_for_donation   Boolean? @default(false)
+  created_at    DateTime @default(now())
+}
+model Doner {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id       String
+  blood_group   String
+  donation_date DateTime
+  created_at    DateTime @default(now())
+}
+
+model Request {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  patient_id   String
+  blood_group  String
+  request_date DateTime
+  created_at   DateTime  @default(now())
+  patient_rel  Patient[]
+}
+
+model Blood_Stock {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  blood_bags  Int
+  blood_group String
+  condition   String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+}
+
+model Blood {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  blood_group String
+  condition   String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+}
+
+model Patient {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  blood_group String
+  request_Id  String?  @db.ObjectId
+  created_at  DateTime @default(now())
+  request_rel Request? @relation(fields: [request_Id], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
+}
