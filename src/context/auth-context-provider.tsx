@@ -6,6 +6,7 @@ import { toast } from "../components/ui/use-toast";
 import { RegisterModelType } from "../models/register-model";
 import { LoginModelType } from "../models";
 import { useRouter } from "next/navigation";
+import NavBar from "../components/nav";
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = React.useState<null | UserType>(null);
@@ -21,6 +22,8 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
           title: "Login Successfully",
           description: res.data.message,
         });
+        setIsLoggedIn(true);
+        verifyToken();
         router.push("/dashboard");
       } else {
         toast({
@@ -72,6 +75,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
           title: "Logout Success",
           description: "You have successfully logged out",
         });
+        verifyToken();
         router.push("/");
         setIsLoading(false);
         return;
@@ -79,6 +83,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
       return;
     } catch (error: any) {
+      setUser(null);
+      setIsLoggedIn(false);
+      setToken(null);
       toast({
         variant: "destructive",
         title: "Something went wrong",
@@ -94,8 +101,6 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const verifyToken = async () => {
     try {
       const res = await axios.post("/api/verify-token");
-      console.log(res.data);
-
       if (res.data.status === 200) {
         setToken(res.data.token);
         setUser(res.data.data);
@@ -109,8 +114,10 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
   useEffect(() => {
-    verifyToken();
-  }, []);
+    if (!isLoggedIn) {
+      verifyToken();
+    }
+  }, [isLoggedIn]);
   return (
     <AuthContext.Provider
       value={{
@@ -123,6 +130,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         logout: logoutFn,
       }}
     >
+      {!!token && <NavBar />}
       {children}
     </AuthContext.Provider>
   );
