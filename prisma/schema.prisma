@@ -82,7 +82,7 @@ model Request {
   patient_id   String
   blood_group  String
   request_date DateTime
-  created_at   DateTime  @default(now())
+  created_at   DateTime? @default(now())
   patient_rel  Patient[]
 }
 
