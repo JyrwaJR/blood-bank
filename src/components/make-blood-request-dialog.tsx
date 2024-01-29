@@ -34,6 +34,26 @@ const MakeBloodRequestDialog = ({ open, onClose }: Props) => {
   });
   const onSubmit = async (data: RequestModelType) => {
     try {
+      const payload: RequestModelType = {
+        blood_group: data.blood_group,
+        request_date: data.request_date,
+        user_id: user?.id,
+      };
+      const res = await axios.post("/api/blood-request", payload);
+      if (res.data.status === 200) {
+        toast({
+          title: "Successfully Make a request",
+          description: res.data.message,
+        });
+        return;
+      }
+      console.log(res.data.error);
+
+      toast({
+        title: "OOP!",
+        description: res.data.message,
+      });
+      return;
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -49,9 +69,7 @@ const MakeBloodRequestDialog = ({ open, onClose }: Props) => {
           <DialogTitle>Request Blood Bag</DialogTitle>
           <DialogDescription>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            distinctio tempora enim excepturi quis amet placeat deleniti
-            consectetur quibusdam officiis maiores ullam quam odio, aliquid
-            reiciendis repudiandae voluptate sapiente repellat.
+            distinctio temporatate sapiente repellat.
           </DialogDescription>
         </DialogHeader>
         <div className='grid  w-full gap-4 py-4'>

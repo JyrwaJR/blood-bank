@@ -35,40 +35,42 @@ model user {
 }
 
 model Health_Report {
-  id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  user_id          String   @db.ObjectId
-  blood_group      String
-  is_approve Boolean
-  approved_by      String
-  height           String
-  weight           String
-  blood_pressure   String
-  pulse_rate       String
-  any_disease      String?  @default("None")
-  report_date      DateTime
-  donation_date    DateTime
-  created_at       DateTime @default(now())
-  updated_at       DateTime @default(now())
-  user_rel         user     @relation(fields: [user_id], references: [id])
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id        String   @db.ObjectId
+  blood_group    String
+  is_approve     Boolean
+  approved_by    String
+  height         String
+  weight         String
+  blood_pressure String
+  pulse_rate     String
+  any_disease    String?  @default("None")
+  report_date    DateTime
+  donation_date  DateTime
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now())
+  user_rel       user     @relation(fields: [user_id], references: [id])
 }
 
 model Donation_details {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  user_id       String
-  blood_group   String
-  unit          Int
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id     String
+  blood_group String
+  unit        Int
   donation_at DateTime
-  donated_by    String
-  is_donated    Boolean
-  created_at    DateTime @default(now())
+  donated_by  String
+  is_donated  Boolean
+  created_at  DateTime @default(now())
 }
+
 model Donation_Appointment {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  user_id       String
-  donation_date String
-approve_for_donation   Boolean? @default(false)
-  created_at    DateTime @default(now())
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id              String
+  donation_date        String
+  approve_for_donation Boolean? @default(false)
+  created_at           DateTime @default(now())
 }
+
 model Doner {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   user_id       String
@@ -79,9 +81,11 @@ model Doner {
 
 model Request {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  patient_id   String
+  user_id       String
+  pick_up_date String?   @default("N/A")
+  is_approve Boolean? @default(false)
   blood_group  String
-  request_date DateTime
+  request_date String
   created_at   DateTime? @default(now())
   patient_rel  Patient[]
 }
