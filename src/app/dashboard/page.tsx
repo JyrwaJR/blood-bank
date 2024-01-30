@@ -1,19 +1,33 @@
-"use client";
+/** @format */
 
-import React, { useState } from "react";
-import BloodStockDialog from "@/src/components/blood-stock-dialog";
+import { cookies } from "next/headers";
+import Image from "next/image";
+import { Mail } from "./components/mail";
+import { accounts, mails } from "./data";
 import { Button } from "@/src/components/ui/button";
 import MakeBloodRequestDialog from "@/src/components/make-blood-request-dialog";
+import { useState } from "react";
 
-const DashboardPage = () => {
-  const [open, setOpen] = useState<boolean>(false);
+export default function MailPage() {
+	// const [open, setOpen] = useState<boolean>(false);
 
-  return (
-    <div>
-      <Button onClick={() => setOpen(true)}>Click</Button>
-      <MakeBloodRequestDialog open={open} onClose={() => setOpen(false)} />
-    </div>
-  );
-};
+	const layout = cookies().get("react-resizable-panels:layout");
+	const collapsed = cookies().get("react-resizable-panels:collapsed");
 
-export default DashboardPage;
+	const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
+	// const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
+
+	return (
+		<>
+			<div className="flex-col flex">
+				<Mail
+					accounts={accounts}
+					// mails={mails}
+					defaultLayout={defaultLayout}
+					// defaultCollapsed={defaultCollapsed}
+					navCollapsedSize={4}
+				/>
+			</div>
+		</>
+	);
+}
