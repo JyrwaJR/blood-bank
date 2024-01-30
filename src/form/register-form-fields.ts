@@ -1,6 +1,6 @@
 import { CustomFormFieldType } from "../components/custom-form";
 
-export const registerFormFields: CustomFormFieldType[] = [
+export const RegisterFormFields: CustomFormFieldType[] = [
   {
     label: "First Name",
     name: "firstName",

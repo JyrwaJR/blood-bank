@@ -16,7 +16,7 @@ import {
   MakeDonationAppointmentModel,
   MakeDonationAppointmentType,
 } from "../models/make-donation-appointment-model";
-import { makeDonationAppointmentFormFields } from "../form/make-donation-appointment-form-fields";
+import { MakeDonationAppointmentFormFields } from "../form/make-donation-appointment-form-fields";
 import { toast } from "./ui/use-toast";
 import axios from "axios";
 import { useAuthContext } from "../context/useAuthContext";
@@ -70,7 +70,7 @@ const DonationAppointmentDialog = ({ open, onClose }: Props) => {
           <CustomForm
             form={form}
             className='grid   w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4'
-            inputFields={makeDonationAppointmentFormFields}
+            inputFields={MakeDonationAppointmentFormFields}
             // inputFields={BloodFormFields}
             onSubmit={onSubmit}
             loading={false}

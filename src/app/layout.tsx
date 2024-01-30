@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "../components/ui/toaster";
 import AuthContextProvider from "../context/auth-context-provider";
+import MailPage from "./dashboard/page";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +18,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = cookies().get("token");
+
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={inter.className}>
         <AuthContextProvider>
-          <div className='mx-auto'>{children}</div>
+          {!!token ? (
+            <>
+              <MailPage>{children}</MailPage>
+            </>
+          ) : (
+            <>{children}</>
+          )}
           <Toaster />
         </AuthContextProvider>
       </body>

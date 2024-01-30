@@ -1,6 +1,6 @@
 import { CustomFormFieldType } from "../components/custom-form";
 
-export const loginFormFields: CustomFormFieldType[] = [
+export const LoginFormFields: CustomFormFieldType[] = [
   {
     label: "Email",
     name: "email",

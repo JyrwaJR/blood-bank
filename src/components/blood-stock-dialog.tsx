@@ -16,7 +16,7 @@ import {
   MakeDonationAppointmentModel,
   MakeDonationAppointmentType,
 } from "../models/make-donation-appointment-model";
-import { makeDonationAppointmentFormFields } from "../form/make-donation-appointment-form-fields";
+import { MakeDonationAppointmentFormFields } from "../form/make-donation-appointment-form-fields";
 import { toast } from "./ui/use-toast";
 import axios from "axios";
 import { useAuthContext } from "../context/useAuthContext";
