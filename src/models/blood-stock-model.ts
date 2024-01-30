@@ -10,7 +10,7 @@ export const BloodStockModel = z.object({
   }),
   created_at: z.string().optional(),
   updated_at: z.string().optional(),
-  blood_bags: z.number({
+  blood_bags_unit: z.number({
     required_error: "Blood Bags is required",
   }),
 });

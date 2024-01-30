@@ -92,7 +92,7 @@ model Request {
 
 model Blood_Stock {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  blood_bags  Int
+  blood_bags_unit  Int
   blood_group String
   condition   String
   created_at  DateTime @default(now())

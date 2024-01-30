@@ -3,20 +3,12 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/src/components/ui/dialog";
-import { Button } from "./ui/button";
 import CustomForm from "./custom-form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  MakeDonationAppointmentModel,
-  MakeDonationAppointmentType,
-} from "../models/make-donation-appointment-model";
-import { makeDonationAppointmentFormFields } from "../form/make-donation-appointment-form-fields";
 import { toast } from "./ui/use-toast";
 import axios from "axios";
 import { useAuthContext } from "../context/useAuthContext";
@@ -39,7 +31,7 @@ const MakeBloodRequestDialog = ({ open, onClose }: Props) => {
         request_date: data.request_date,
         user_id: user?.id,
       };
-      const res = await axios.post("/api/blood-request", payload);
+      const res = await axios.post("/api/blood/request", payload);
       if (res.data.status === 200) {
         toast({
           title: "Successfully Make a request",
@@ -47,8 +39,6 @@ const MakeBloodRequestDialog = ({ open, onClose }: Props) => {
         });
         return;
       }
-      console.log(res.data.error);
-
       toast({
         title: "OOP!",
         description: res.data.message,

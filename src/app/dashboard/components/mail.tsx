@@ -113,7 +113,7 @@ export function Mail({
 						<AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
 					</div>
 					<Separator />
-					<Nav isCollapsed={isCollapsed} links={sidebarLink} />
+					<Nav isCollapsed={isCollapsed} links={sidebarLink}  />
 					<Separator />
 					<Nav isCollapsed={isCollapsed} links={navLink} />
 				</ResizablePanel>

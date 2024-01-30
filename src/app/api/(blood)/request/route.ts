@@ -1,9 +1,9 @@
 import { NextRequest } from "next/server";
-import { APIRes } from "../_lib/api-res";
-import { HttpStatus } from "../_lib/https-status";
+import { APIRes } from "../../_lib/api-res";
+import { HttpStatus } from "../../_lib/https-status";
 import { RequestModel, RequestModelType } from "@/src/models/request-model";
-import prisma from "../../../../prisma/client";
-import { getUserById } from "../_lib/get-user-by-id";
+import prisma from "../../../../../prisma/client";
+import { getUserById } from "../../_lib/get-user-by-id";
 
 export async function POST(req: NextRequest) {
   try {

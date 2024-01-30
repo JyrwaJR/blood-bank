@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { APIRes } from "../_lib/api-res";
+import { APIRes } from "../../_lib/api-res";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {

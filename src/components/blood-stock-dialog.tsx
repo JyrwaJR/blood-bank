@@ -34,6 +34,12 @@ const BloodStockDialog = ({ open, onClose }: Props) => {
   });
   const onSubmit = async (data: BloodStockType) => {
     try {
+      const payload: BloodStockType = {
+        blood_group: data.blood_group,
+        blood_bags_unit: data.blood_bags_unit,
+        condition: data.condition,
+      };
+      // TODO: Add the endpoint
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -51,10 +57,10 @@ const BloodStockDialog = ({ open, onClose }: Props) => {
             Make changes to your profile here. Click save when {`you're`} done.
           </DialogDescription>
         </DialogHeader>
-        <div className='grid  w-full gap-4 py-4'>
+        <div className='grid w-full gap-4 py-4'>
           <CustomForm
             form={form}
-            className='grid   w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4'
+            className='grid w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4'
             inputFields={BloodStockFormFields}
             onSubmit={onSubmit}
             loading={false}
