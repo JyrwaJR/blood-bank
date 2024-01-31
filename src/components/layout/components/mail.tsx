@@ -54,49 +54,55 @@ export function Mail({
       }}
       className='h-full max-h-screen  items-stretch'
     >
-      <ResizablePanel
-        defaultSize={265}
-        collapsedSize={navCollapsedSize}
-        collapsible={true}
-        minSize={15}
-        maxSize={20}
-        // @ts-ignore
-        onCollapse={(collapsed) => {
-          setIsCollapsed(collapsed);
-          document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-            collapsed
-          )}`;
-        }}
-        className={cn(
-          isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out"
-        )}
-      >
-        <div
+      <div className='hidden sm:block'>
+        {" "}
+        {/* Hide on small screens */}
+        <ResizablePanel
+          defaultSize={265}
+          collapsedSize={navCollapsedSize}
+          collapsible={true}
+          minSize={15}
+          maxSize={50}
+          // @ts-ignore
+          onCollapse={(collapsed) => {
+            setIsCollapsed(collapsed);
+            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+              collapsed
+            )}`;
+          }}
           className={cn(
-            "flex h-[52px] items-center justify-center",
-            isCollapsed ? "h-[52px]" : "px-2"
+            isCollapsed &&
+              "min-w-[50px] transition-all duration-300 ease-in-out"
           )}
         >
-          <AccountSwitcher isCollapsed={isCollapsed} accounts={acc} />
-        </div>
-        <Separator />
+          <div
+            className={cn(
+              "flex h-[52px] items-center justify-center",
+              isCollapsed ? "h-[52px]" : "px-2"
+            )}
+          >
+            <AccountSwitcher isCollapsed={isCollapsed} accounts={acc} />
+          </div>
+          <Separator />
 
-        <Nav
-          setTitleState={setTitleState}
-          isCollapsed={isCollapsed}
-          links={sidebarLink}
-        />
-        <Separator />
-        <Nav
-          setTitleState={setTitleState}
-          isCollapsed={isCollapsed}
-          links={navLink}
-        />
-        <Separator />
-        {/* <Button variant={"ghost"} className='w-full'>
-          
-        </Button> */}
-      </ResizablePanel>
+          <Nav
+            setTitleState={setTitleState}
+            isCollapsed={isCollapsed}
+            links={sidebarLink}
+          />
+          <Separator />
+          <Nav
+            setTitleState={setTitleState}
+            isCollapsed={isCollapsed}
+            links={navLink}
+          />
+          <Separator />
+          {/* <Button variant={"ghost"} className='w-full'>
+      
+    </Button> */}
+        </ResizablePanel>
+      </div>
+
       <ResizablePanel defaultSize={440} minSize={30}>
         <div className='flex items-center justify-between px-4 py-2'>
           <h1 className='text-xl font-bold'>{titleState}</h1>

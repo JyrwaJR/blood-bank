@@ -11,6 +11,7 @@ import {
 } from "@/src/components/ui/tooltip";
 import { cn } from "@/src/lib/utils";
 import { Button, buttonVariants } from "@/src/components/ui/button";
+import { Sheet } from "../../ui/sheet";
 
 interface NavProps {
   isCollapsed: boolean;
@@ -47,13 +48,13 @@ export function Nav({ links, isCollapsed, setTitleState }: NavProps) {
                   onClick={() => setTitleState(link.title)}
                 >
                   <link.icon className='h-4 w-4' />
-                  <span className='sr-only'>{link.title}</span>
+                  <span className='sr-only '>{link.title}</span>
                 </Link>
               </TooltipTrigger>
               <TooltipContent side='right' className='flex items-center gap-4'>
                 {link.title}
                 {link.label && (
-                  <span className='ml-auto text-muted-foreground'>
+                  <span className='ml-auto  text-muted-foreground'>
                     {link.label}
                   </span>
                 )}
