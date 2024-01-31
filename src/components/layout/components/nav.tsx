@@ -10,7 +10,7 @@ import {
 	TooltipTrigger,
 } from "@/src/components/ui/tooltip";
 import { cn } from "@/src/lib/utils";
-import { buttonVariants } from "@/src/components/ui/button";
+import { Button, buttonVariants } from "@/src/components/ui/button";
 
 interface NavProps {
   isCollapsed: boolean;
@@ -20,6 +20,7 @@ interface NavProps {
     label?: string;
     icon: LucideIcon;
     variant: "default" | "ghost";
+    href: string;
   }[];
 }
 
@@ -35,7 +36,8 @@ export function Nav({ links, isCollapsed, setTitleState }: NavProps) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
-                  href='#'
+                  key={index}
+                  href={link.href}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9",
@@ -58,31 +60,33 @@ export function Nav({ links, isCollapsed, setTitleState }: NavProps) {
               </TooltipContent>
             </Tooltip>
           ) : (
-            <Link
-              key={index}
-              href='#'
-              className={cn(
-                buttonVariants({ variant: link.variant, size: "sm" }),
-                link.variant === "default" &&
-                  "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                "justify-start"
-              )}
-              onClick={() => setTitleState(link.title)}
-            >
-              <link.icon className='mr-2 h-4 w-4' />
-              {link.title}
-              {link.label && (
-                <span
-                  className={cn(
-                    "ml-auto",
-                    link.variant === "default" &&
-                      "text-background dark:text-white"
-                  )}
-                >
-                  {link.label}
-                </span>
-              )}
-            </Link>
+            <>
+              <Link
+                key={index}
+                href={link.href}
+                className={cn(
+                  buttonVariants({ variant: link.variant, size: "sm" }),
+                  link.variant === "default" &&
+                    "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                  "justify-start"
+                )}
+                onClick={() => setTitleState(link.title)}
+              >
+                <link.icon className='mr-2 h-4 w-4' />
+                {link.title}
+                {link.label && (
+                  <span
+                    className={cn(
+                      "ml-auto",
+                      link.variant === "default" &&
+                        "text-background dark:text-white"
+                    )}
+                  >
+                    {link.label}
+                  </span>
+                )}
+              </Link>
+            </>
           )
         )}
       </nav>

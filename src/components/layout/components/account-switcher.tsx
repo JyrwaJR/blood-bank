@@ -17,7 +17,7 @@ interface AccountSwitcherProps {
     label: string;
     email: string;
     icon: React.ReactNode;
-  }[];
+  };
 }
 
 export function AccountSwitcher({
@@ -25,7 +25,7 @@ export function AccountSwitcher({
   accounts,
 }: AccountSwitcherProps) {
   const [selectedAccount, setSelectedAccount] = React.useState<string>(
-    accounts[0].email
+    accounts.email
   );
 
   return (
@@ -39,24 +39,19 @@ export function AccountSwitcher({
         aria-label='Select account'
       >
         <SelectValue placeholder='Select an account'>
-          {accounts.find((account) => account.email === selectedAccount)?.icon}
+          {accounts?.icon}
           <span className={cn("ml-2", isCollapsed && "hidden")}>
-            {
-              accounts.find((account) => account.email === selectedAccount)
-                ?.label
-            }
+            {accounts.email}
           </span>
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {accounts.map((account) => (
-          <SelectItem key={account.email} value={account.email}>
-            <div className='flex items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground'>
-              {account.icon}
-              {account.email}
-            </div>
-          </SelectItem>
-        ))}
+        <SelectItem value={accounts.email}>
+          <div className='flex items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground'>
+            {accounts.icon}
+            {accounts.email}
+          </div>
+        </SelectItem>
       </SelectContent>
     </Select>
   );

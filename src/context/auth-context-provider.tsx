@@ -8,7 +8,8 @@ import { toast } from "../components/ui/use-toast";
 import { RegisterModelType } from "../models/register-model";
 import { LoginModelType } from "../models";
 import { useRouter } from "next/navigation";
-import MailPage from "../app/dashboard/page";
+import { TooltipProvider } from "../components/ui/tooltip";
+import MailLayout from "../components/layout/mail-layout";
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = React.useState<null | UserType>(null);
@@ -26,7 +27,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         });
         setIsLoggedIn(true);
         verifyToken();
-        router.push("/dashboard");
+        router.push("/home");
       } else {
         toast({
           variant: "destructive",
@@ -103,11 +104,14 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const verifyToken = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.post("/api/verify-token");
       if (res.data.status === 200) {
         setToken(res.data.token);
         setUser(res.data.data);
         setIsLoggedIn(!!res.data.token);
+        setIsLoading(false);
+        return;
       }
     } catch (error: any) {
       toast({
@@ -115,6 +119,10 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         title: "Something went wrong",
         description: error.message,
       });
+      setIsLoading(false);
+      return;
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -122,6 +130,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       verifyToken();
     }
   }, [isLoggedIn]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -134,7 +143,15 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         logout: logoutFn,
       }}
     >
-      <>{children}</>
+      {!!token && token !== null ? (
+        <TooltipProvider>
+          <>
+            <MailLayout>{children}</MailLayout>
+          </>
+        </TooltipProvider>
+      ) : (
+        <>{children}</>
+      )}
     </AuthContext.Provider>
   );
 };
