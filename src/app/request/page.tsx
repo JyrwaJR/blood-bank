@@ -1,15 +1,17 @@
+/** @format */
+
 "use client";
 
 import * as React from "react";
 
 import { Button } from "@/src/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
 } from "@/src/components/ui/card";
 
 import { useForm } from "react-hook-form";
@@ -25,41 +27,81 @@ import { DataTable } from "@/src/components/data-table-components/data-table";
 import { RequestColumns } from "@/src/column/columns";
 
 export default function RequestForm() {
-  const form = useForm<RequestModelType>({
-    resolver: zodResolver(RequestModel),
-  });
-  const onSubmit = () => {
-    try {
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message });
-    }
-  };
-  return (
-    <div className='flex justify-center items-center lg:h-screen '>
-      <div className='grid overflow-auto grid-cols-12  gap-4  '>
-        <div className='col-span-12 w-[900px] sm:col-span-12 md:col-span-6 '>
-          <Card className='w-full sm:w-[250px] lg:w-[450px]'>
-            <CardHeader>
-              <CardTitle>Request</CardTitle>
-              <CardDescription>
-                Deploy your new project in one-click.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className='grid w-full items-center gap-4'>
-                <CustomForm
-                  form={form}
-                  className='grid w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4 '
-                  inputFields={RequestFormFields}
-                  onSubmit={onSubmit}
-                  loading={false}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        
-      </div>
-    </div>
-  );
+	const form = useForm<RequestModelType>({
+		resolver: zodResolver(RequestModel),
+	});
+	const onSubmit = () => {
+		try {
+		} catch (error: any) {
+			toast({ title: "Error", description: error.message });
+		}
+	};
+	return (
+		<div className="flex justify-center items-center h-screen">
+			<div className="grid overflow-auto grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-2 ">
+				<div className="overflow-auto col-span-1 p-6">
+					<Card className="w-full">
+						<CardHeader>
+							<CardTitle>Request</CardTitle>
+							<CardDescription>
+								Deploy your new project in one-click.
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<div className="grid w-full items-center gap-4">
+								<CustomForm
+									form={form}
+									className="grid w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4"
+									inputFields={RequestFormFields}
+									onSubmit={onSubmit}
+									loading={false}
+								/>
+							</div>
+						</CardContent>
+					</Card>
+				</div>
+				<div className="overflow-auto col-span-2 p-6">
+					<Card className="w-full">
+						<CardHeader>
+							<CardTitle>Request Data</CardTitle>
+							<CardDescription>View and manage your requests.</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<div className="grid grid-cols-1 gap-4">
+								<DataTable
+									// addButton={() => {}}
+									columns={RequestColumns}
+									data={mockData}
+									// isLoading={false}
+									// refetch={() => {}}
+								/>
+							</div>
+						</CardContent>
+					</Card>
+				</div>
+			</div>
+		</div>
+	);
 }
+
+const mockData: RequestModelType[] = [
+	{
+		id: "1",
+		pick_up_date: "2022-08-01",
+		is_approve: true,
+		blood_group: "A+",
+		request_date: "2022-08-01",
+		created_at: "2022-08-01T12:00:00Z",
+		updatedAt: "2022-08-02T10:30:00Z",
+	},
+	{
+		id: "2",
+		pick_up_date: "2022-08-05",
+		is_approve: false,
+		blood_group: "B-",
+		request_date: "2022-08-05",
+		created_at: "2022-08-05T09:45:00Z",
+		updatedAt: "2022-08-06T14:20:00Z",
+	},
+	// Add more mock data as needed
+];

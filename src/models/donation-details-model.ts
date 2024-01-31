@@ -16,6 +16,8 @@ export const DonationDetailsModel = z.object({
     required_error: "Donated by is required",
   }),
   is_donated: z.boolean({
-    required_error: "Is donated is required",
+    required_error: "Donated is required",
   }),
 });
+
+export type DonationDetailsModelType = z.infer<typeof DonationDetailsModel>;
