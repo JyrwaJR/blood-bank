@@ -25,83 +25,82 @@ import { RequestModel, RequestModelType } from "@/src/models/request-model";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { DataTable } from "@/src/components/data-table-components/data-table";
 import { RequestColumns } from "@/src/column/columns";
+import axios from "axios";
 
 export default function RequestForm() {
-	const form = useForm<RequestModelType>({
-		resolver: zodResolver(RequestModel),
-	});
-	const onSubmit = () => {
-		try {
-		} catch (error: any) {
-			toast({ title: "Error", description: error.message });
-		}
-	};
-	return (
-		<div className="flex justify-center items-center h-screen">
-			<div className="grid overflow-auto grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-2 ">
-				<div className="overflow-auto col-span-1 p-6">
-					<Card className="w-full">
-						<CardHeader>
-							<CardTitle>Request</CardTitle>
-							<CardDescription>
-								Deploy your new project in one-click.
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<div className="grid w-full items-center gap-4">
-								<CustomForm
-									form={form}
-									className="grid w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4"
-									inputFields={RequestFormFields}
-									onSubmit={onSubmit}
-									loading={false}
-								/>
-							</div>
-						</CardContent>
-					</Card>
-				</div>
-				<div className="overflow-auto col-span-2 p-6">
-					<Card className="w-full">
-						<CardHeader>
-							<CardTitle>Request Data</CardTitle>
-							<CardDescription>View and manage your requests.</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<div className="grid grid-cols-1 gap-4">
-								<DataTable
-									// addButton={() => {}}
-									columns={RequestColumns}
-									data={mockData}
-									// isLoading={false}
-									// refetch={() => {}}
-								/>
-							</div>
-						</CardContent>
-					</Card>
-				</div>
-			</div>
-		</div>
-	);
+  const [data, setData] = React.useState<RequestModelType[]>([]);
+  const form = useForm<RequestModelType>({
+    resolver: zodResolver(RequestModel),
+  });
+  const onSubmit = () => {
+    try {
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message });
+    }
+  };
+  const getData = async () => {
+    try {
+      const res = await axios.get("/api/request");
+      if (res.data.status === 200) {
+        toast({ title: "Success", description: res.data.message });
+
+        setData(res.data.data);
+      }
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message });
+    }
+  };
+
+  React.useEffect(() => {
+    getData();
+    console.log(data);
+  }, []);
+
+  return (
+    <div className='flex justify-center items-center h-screen'>
+      <div className='grid overflow-auto grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-2 '>
+        <div className='overflow-auto col-span-1 p-6'>
+          <Card className='w-full'>
+            <CardHeader>
+              <CardTitle>Request</CardTitle>
+              <CardDescription>
+                Deploy your new project in one-click.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className='grid w-full items-center gap-4'>
+                <CustomForm
+                  form={form}
+                  className='grid w-full grid-cols-1 sm:grid-cols-1 xl:grid-cols-1 gap-2 md:gap-4'
+                  inputFields={RequestFormFields}
+                  onSubmit={onSubmit}
+                  loading={false}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <div className='overflow-auto col-span-2 p-6'>
+          <Card className='w-full'>
+            <CardHeader>
+              <CardTitle>Request Data</CardTitle>
+              <CardDescription>View and manage your requests.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className='grid grid-cols-1 gap-4'>
+                <DataTable
+                  // addButton={() => {}}
+                  columns={RequestColumns}
+                  data={data}
+                  // isLoading={false}
+                  // refetch={() => {}}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-const mockData: RequestModelType[] = [
-	{
-		id: "1",
-		pick_up_date: "2022-08-01",
-		is_approve: true,
-		blood_group: "A+",
-		request_date: "2022-08-01",
-		created_at: "2022-08-01T12:00:00Z",
-		updatedAt: "2022-08-02T10:30:00Z",
-	},
-	{
-		id: "2",
-		pick_up_date: "2022-08-05",
-		is_approve: false,
-		blood_group: "B-",
-		request_date: "2022-08-05",
-		created_at: "2022-08-05T09:45:00Z",
-		updatedAt: "2022-08-06T14:20:00Z",
-	},
-	// Add more mock data as needed
-];

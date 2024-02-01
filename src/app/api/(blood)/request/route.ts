@@ -5,6 +5,53 @@ import { RequestModel, RequestModelType } from "@/src/models/request-model";
 import prisma from "../../../../../prisma/client";
 import { getUserById } from "../../_lib/get-user-by-id";
 
+const mockData: RequestModelType[] = [
+  {
+    id: "1",
+    pick_up_date: "2022-08-01",
+    is_approve: true,
+    blood_group: "A+",
+    request_date: "2022-08-01",
+    created_at: "2022-08-01T12:00:00Z",
+    updatedAt: "2022-08-02T10:30:00Z",
+  },
+  {
+    id: "2",
+    pick_up_date: "2022-08-05",
+    is_approve: false,
+    blood_group: "B-",
+    request_date: "2022-08-05",
+    created_at: "2022-08-05T09:45:00Z",
+    updatedAt: "2022-08-06T14:20:00Z",
+  },
+  // Add more mock data as needed
+];
+
+export async function GET(req: NextRequest) {
+  try {
+    const isConnectedToDb = prisma
+      .$connect()
+      .then(() => true)
+      .catch(() => false);
+    if (!isConnectedToDb) {
+      return APIRes({
+        message: "Connection error",
+        status: HttpStatus.GatewayTimeout,
+      });
+    }
+    return APIRes({
+      message: "Successfully fetch Blood request list",
+      data: mockData,
+      status: HttpStatus.OK,
+    });
+  } catch (error: any) {
+    return APIRes({
+      status: HttpStatus.InternalServerError,
+      message: error.message,
+      error: error,
+    });
+  }
+}
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();

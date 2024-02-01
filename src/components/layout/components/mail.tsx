@@ -15,16 +15,24 @@ import { navLink } from "./nav-link";
 import Link from "next/link";
 import { useAuthContext } from "@/src/context/useAuthContext";
 import { toast } from "@/src/components/ui/use-toast";
+import { MenuIcon } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "../../ui/sheet";
 
 export function Mail({
   children,
-  // defaultLayout = [265, 440, 655],
   defaultCollapsed = false,
   navCollapsedSize,
 }: MailProps) {
+  const [isMobileOpen, setIsMobileOpen] = React.useState(false);
+  const { user, logout } = useAuthContext();
   const [titleState, setTitleState] = React.useState<string>("Inbox");
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
-  const { logout, isLoggedIn } = useAuthContext();
   const onLogout = async () => {
     try {
       await logout();
@@ -32,7 +40,6 @@ export function Mail({
       toast({ title: "Something went wrong", description: error.message });
     }
   };
-  const { user } = useAuthContext();
   const acc = {
     label: user?.name ?? "undefined",
     email: user?.email ?? "undefined",
@@ -54,6 +61,13 @@ export function Mail({
       }}
       className='h-full max-h-screen  items-stretch'
     >
+      <MobileSheet
+        titleState={setTitleState}
+        isCollapsed={isCollapsed}
+        open={isMobileOpen}
+        onClose={() => setIsMobileOpen(!isMobileOpen)}
+      />
+
       <div className='hidden sm:block'>
         {" "}
         {/* Hide on small screens */}
@@ -72,7 +86,7 @@ export function Mail({
           }}
           className={cn(
             isCollapsed &&
-              "min-w-[50px] transition-all duration-300 ease-in-out"
+              "min-w-[50px]  transition-all duration-300 ease-in-out"
           )}
         >
           <div
@@ -97,16 +111,23 @@ export function Mail({
             links={navLink}
           />
           <Separator />
-          {/* <Button variant={"ghost"} className='w-full'>
-      
-    </Button> */}
         </ResizablePanel>
       </div>
 
       <ResizablePanel defaultSize={440} minSize={30}>
         <div className='flex items-center justify-between px-4 py-2'>
-          <h1 className='text-xl font-bold'>{titleState}</h1>
-          <div className='gap-2 grid grid-flow-col'>
+          <div className='flex space-x-2 items-center '>
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className='sm:hidden'
+            >
+              <MenuIcon />
+            </Button>
+            <h1 className='text-xl font-bold'>{titleState}</h1>
+          </div>
+          <div className='gap-2 grid grid-flow-col '>
             {Links.map((link, index) => (
               <Link
                 key={index}
@@ -115,7 +136,7 @@ export function Mail({
                 className={cn(
                   buttonVariants({
                     variant: "link",
-                  })
+                  }),"hidden sm:block"
                 )}
               >
                 {link.title}
@@ -157,3 +178,37 @@ export const Links: LinksType[] = [
     title: "Contact",
   },
 ];
+
+type MobileSheetsProps = {
+  open: boolean;
+  onClose: () => void;
+  titleState: React.Dispatch<React.SetStateAction<string>>;
+  isCollapsed: boolean;
+};
+const MobileSheet = ({
+  open,
+  onClose,
+  titleState,
+  isCollapsed,
+}: MobileSheetsProps) => {
+  return (
+    <Sheet open={open} onOpenChange={onClose}>
+      <SheetContent
+        side={"left"}
+        className='w-[400px] sm:w-[540px] md:hidden block '
+      >
+        <Nav
+          setTitleState={titleState}
+          isCollapsed={isCollapsed}
+          links={sidebarLink}
+        />
+        <Separator />
+        <Nav
+          setTitleState={titleState}
+          isCollapsed={isCollapsed}
+          links={navLink}
+        />
+      </SheetContent>
+    </Sheet>
+  );
+};
