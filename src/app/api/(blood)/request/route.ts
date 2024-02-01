@@ -13,7 +13,6 @@ const mockData: RequestModelType[] = [
     blood_group: "A+",
     request_date: "2022-08-01",
     created_at: "2022-08-01T12:00:00Z",
-    updatedAt: "2022-08-02T10:30:00Z",
   },
   {
     id: "2",
@@ -22,7 +21,6 @@ const mockData: RequestModelType[] = [
     blood_group: "B-",
     request_date: "2022-08-05",
     created_at: "2022-08-05T09:45:00Z",
-    updatedAt: "2022-08-06T14:20:00Z",
   },
   // Add more mock data as needed
 ];

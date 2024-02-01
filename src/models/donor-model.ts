@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const DonerModel = z.object({
+export const DonorModel = z.object({
   id: z.string().optional(),
   user_id: z.string().optional(),
   blood_group: z.string({
@@ -11,3 +11,5 @@ export const DonerModel = z.object({
   }),
   created_at: z.string().optional(),
 });
+
+export type DonorModelType = z.infer<typeof DonorModel>;

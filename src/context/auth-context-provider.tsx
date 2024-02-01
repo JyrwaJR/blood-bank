@@ -112,7 +112,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLoggedIn(!!res.data.token);
         setIsLoading(false);
         return;
-      }
+      }router.refresh();
     } catch (error: any) {
       toast({
         variant: "destructive",

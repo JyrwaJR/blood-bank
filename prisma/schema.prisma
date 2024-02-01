@@ -71,7 +71,7 @@ model Donation_Appointment {
   created_at           DateTime @default(now())
 }
 
-model Doner {
+model Donor {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   user_id       String
   blood_group   String
